@@ -11,7 +11,7 @@ class AccountingTest extends TestCase
     public $accounting;
     private $budgetRepo;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->budgetRepo = new FakeBudgetRepo();
         $this->accounting = new Accounting($this->budgetRepo);
@@ -27,7 +27,7 @@ class AccountingTest extends TestCase
     public function testOneDay()
     {
         $this->budgetRepo->setBudgets([
-            new Budget('202101',3100),
+            new Budget('202101', 3100),
         ]);
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/01'), new \DateTime('2021/01/01'));
         $this->assertEquals(100, $totalAmount);
@@ -36,7 +36,7 @@ class AccountingTest extends TestCase
     public function testMultipleDays()
     {
         $this->budgetRepo->setBudgets([
-            new Budget('202102',2800),
+            new Budget('202102', 2800),
         ]);
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/02/01'), new \DateTime('2021/02/05'));
         $this->assertEquals(500, $totalAmount);
@@ -45,7 +45,7 @@ class AccountingTest extends TestCase
     public function testMonthly()
     {
         $this->budgetRepo->setBudgets([
-            new Budget('202102',2800),
+            new Budget('202102', 2800),
         ]);
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/02/01'), new \DateTime('2021/02/28'));
         $this->assertEquals(2800, $totalAmount);
@@ -54,8 +54,8 @@ class AccountingTest extends TestCase
     public function testCrossMonth()
     {
         $this->budgetRepo->setBudgets([
-            new Budget('202101',3100),
-            new Budget('202102',56),
+            new Budget('202101', 3100),
+            new Budget('202102', 56),
         ]);
 
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/30'), new \DateTime('2021/02/01'));
@@ -65,9 +65,9 @@ class AccountingTest extends TestCase
     public function testCrossMultipleMonth()
     {
         $this->budgetRepo->setBudgets([
-            new Budget('202101',3100),
-            new Budget('202102',123),
-            new Budget('202103',62),
+            new Budget('202101', 3100),
+            new Budget('202102', 123),
+            new Budget('202103', 62),
         ]);
 
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/30'), new \DateTime('2021/03/01'));
@@ -77,8 +77,8 @@ class AccountingTest extends TestCase
     public function testCrossYear()
     {
         $this->budgetRepo->setBudgets([
-            new Budget('202012',3100),
-            new Budget('202101',62),
+            new Budget('202012', 3100),
+            new Budget('202101', 62),
         ]);
 
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2020/12/31'), new \DateTime('2021/01/01'));
@@ -88,7 +88,7 @@ class AccountingTest extends TestCase
     public function testInvalidDay()
     {
         $this->budgetRepo->setBudgets([
-            new Budget('202101',62),
+            new Budget('202101', 62),
         ]);
 
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/31'), new \DateTime('2021/01/01'));
@@ -98,9 +98,9 @@ class AccountingTest extends TestCase
     public function testCrossMultipleMonthWithNoBudget()
     {
         $this->budgetRepo->setBudgets([
-            new Budget('202101',3100),
-            new Budget('202102',0),
-            new Budget('202103',62),
+            new Budget('202101', 3100),
+            new Budget('202102', 0),
+            new Budget('202103', 62),
         ]);
 
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/30'), new \DateTime('2021/03/01'));
@@ -110,8 +110,8 @@ class AccountingTest extends TestCase
     public function testCrossMultipleMonthWithFirstNoBudget()
     {
         $this->budgetRepo->setBudgets([
-            new Budget('202102',2800),
-            new Budget('202103',62),
+            new Budget('202102', 2800),
+            new Budget('202103', 62),
         ]);
 
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/30'), new \DateTime('2021/03/01'));
