@@ -56,10 +56,44 @@ class AccountingTest extends TestCase
     {
         $this->budgetRepo->setBudgets([
             new Budget('202101',3100),
-            new Budget('202102',5600),
+            new Budget('202102',56),
         ]);
+
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/30'), new \DateTime('2021/02/01'));
-        $this->assertEquals(400, $totalAmount);
+        $this->assertEquals(202, $totalAmount);
+    }
+
+    public function testCrossMultipleMonth()
+    {
+        $this->budgetRepo->setBudgets([
+            new Budget('202101',3100),
+            new Budget('202102',123),
+            new Budget('202103',62),
+        ]);
+
+        $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/30'), new \DateTime('2021/03/01'));
+        $this->assertEquals(325, $totalAmount);
+    }
+
+    public function testCrossYear()
+    {
+        $this->budgetRepo->setBudgets([
+            new Budget('202012',3100),
+            new Budget('202101',62),
+        ]);
+
+        $totalAmount = $this->accounting->totalAmount(new \DateTime('2020/12/31'), new \DateTime('2021/01/01'));
+        $this->assertEquals(102, $totalAmount);
+    }
+
+    public function testInvalidDay()
+    {
+        $this->budgetRepo->setBudgets([
+            new Budget('202101',62),
+        ]);
+
+        $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/31'), new \DateTime('2021/01/01'));
+        $this->assertEquals(0, $totalAmount);
     }
 }
 

@@ -22,39 +22,37 @@ class Accounting
 
     public function totalAmount(DateTime $start, DateTime $end)
     {
-        $budgets = [];
-        $dayOfAmount = 0;
+        if ($end < $start) return 0;
 
+        $budgets = [];
         $allBudgets = $this->budgetRepo->getAll();
 
         if (!$allBudgets) return 0;
 
+        $allAmount = 0;
+
         foreach ($allBudgets as $budget) {
-            if ($start->format('Ym') == $budget->yearMonth) {
+            if (
+                $start->format('Ym') <= $budget->yearMonth &&
+                $end->format('Ym') >= $budget->yearMonth
+            ) {
                 $budgets[] = $budget;
-                continue;
-            }
-            if ($end->format('Ym') == $budget->yearMonth) {
-                $budgets[] = $budget;
-                continue;
+                $allAmount += $budget->amount;
             }
         }
 
         if (isset($budgets[0])) {
             $daysOfMonth = cal_days_in_month(CAL_GREGORIAN, $start->format('m'), $start->format('Y'));
-            $daysOfPeriod = $end->diff($start)->days + 1;
-            $dayOfAmount += $budgets[0]->amount / $daysOfMonth * $daysOfPeriod;
+            $daysOfPeriod = $start->format('d') - 1;
+            $allAmount -= $budgets[0]->amount / $daysOfMonth * $daysOfPeriod;
         }
 
-
-        if (isset($budgets[1])) {
+        if (isset($budgets[count($budgets)-1])) {
             $daysOfMonth = cal_days_in_month(CAL_GREGORIAN, $end->format('m'), $end->format('Y'));
-            $daysOfPeriod = $daysOfMonth - $end->format('d') + 1;
-            $dayOfAmount += $budgets[1]->amount / $daysOfMonth * $daysOfPeriod;
+            $daysOfPeriod = $daysOfMonth - $end->format('d');
+            $allAmount -= $budgets[count($budgets)-1]->amount / $daysOfMonth * $daysOfPeriod;
         }
 
-        return $dayOfAmount;
+        return $allAmount;
     }
-
-
 }
