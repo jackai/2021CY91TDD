@@ -1,0 +1,16 @@
+language: php
+
+php:
+  - 7.0
+  - 7.1
+
+before_script:
+  - composer install --prefer-dist --no-interaction
+
+script: phpunit --configuration phpunit.xml --coverage-text
+
+notifications:
+  notifications:
+    email:
+      on_success: always
+      on_failure: always
