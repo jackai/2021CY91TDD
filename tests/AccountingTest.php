@@ -107,6 +107,17 @@ class AccountingTest extends TestCase
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/30'), new \DateTime('2021/03/01'));
         $this->assertEquals(202, $totalAmount);
     }
+
+    public function testCrossMultipleMonthWithFirstNoBudget()
+    {
+        $this->budgetRepo->setBudgets([
+            new Budget('202102',2800),
+            new Budget('202103',62),
+        ]);
+
+        $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/30'), new \DateTime('2021/03/01'));
+        $this->assertEquals(2802, $totalAmount);
+    }
 }
 
 

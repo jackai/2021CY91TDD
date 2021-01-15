@@ -36,21 +36,21 @@ class Accounting
                 $start->format('Ym') <= $budget->yearMonth &&
                 $end->format('Ym') >= $budget->yearMonth
             ) {
-                $budgets[] = $budget;
+                $budgets[$budget->yearMonth] = $budget;
                 $allAmount += $budget->amount;
             }
         }
 
-        if (isset($budgets[0])) {
+        if (isset($budgets[$start->format('Ym')])) {
             $daysOfMonth = $this->getDaysOfMonth($start);
             $daysOfPeriod = $start->format('d') - 1;
-            $allAmount -= $budgets[0]->amount / $daysOfMonth * $daysOfPeriod;
+            $allAmount -= $budgets[$start->format('Ym')]->amount / $daysOfMonth * $daysOfPeriod;
         }
 
-        if (isset($budgets[count($budgets)-1])) {
+        if (isset($budgets[$end->format('Ym')])) {
             $daysOfMonth = $this->getDaysOfMonth($end);
             $daysOfPeriod = $daysOfMonth - $end->format('d');
-            $allAmount -= $budgets[count($budgets)-1]->amount / $daysOfMonth * $daysOfPeriod;
+            $allAmount -= $budgets[$end->format('Ym')]->amount / $daysOfMonth * $daysOfPeriod;
         }
 
         return $allAmount;
