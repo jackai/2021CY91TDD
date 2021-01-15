@@ -22,12 +22,39 @@ class Accounting
 
     public function totalAmount(DateTime $start, DateTime $end)
     {
-        $budgets = $this->budgetRepo->getAll();
+        $budgets = [];
+        $dayOfAmount = 0;
 
-        $b = $budgets[0];
-        $d = $end->diff($start)->days + 1;
-        $dayOfAmount = $b->amount / 31;
+        $allBudgets = $this->budgetRepo->getAll();
 
-        return $dayOfAmount * $d;
+        if (!$allBudgets) return 0;
+
+        foreach ($allBudgets as $budget) {
+            if ($start->format('Ym') == $budget->yearMonth) {
+                $budgets[] = $budget;
+                continue;
+            }
+            if ($end->format('Ym') == $budget->yearMonth) {
+                $budgets[] = $budget;
+                continue;
+            }
+        }
+
+        if (isset($budgets[0])) {
+            $daysOfMonth = cal_days_in_month(CAL_GREGORIAN, $start->format('m'), $start->format('Y'));
+            $daysOfPeriod = $end->diff($start)->days + 1;
+            $dayOfAmount += $budgets[0]->amount / $daysOfMonth * $daysOfPeriod;
+        }
+
+
+        if (isset($budgets[1])) {
+            $daysOfMonth = cal_days_in_month(CAL_GREGORIAN, $end->format('m'), $end->format('Y'));
+            $daysOfPeriod = $daysOfMonth - $end->format('d') + 1;
+            $dayOfAmount += $budgets[1]->amount / $daysOfMonth * $daysOfPeriod;
+        }
+
+        return $dayOfAmount;
     }
+
+
 }

@@ -9,7 +9,7 @@ class FakeBudgetRepo extends BudgetRepo
     /**
      * @var array
      */
-    private $budgets;
+    private $budgets = [];
 
     public function getAll()
     {
