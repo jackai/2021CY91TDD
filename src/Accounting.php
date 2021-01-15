@@ -42,17 +42,22 @@ class Accounting
         }
 
         if (isset($budgets[0])) {
-            $daysOfMonth = cal_days_in_month(CAL_GREGORIAN, $start->format('m'), $start->format('Y'));
+            $daysOfMonth = $this->getDaysOfMonth($start);
             $daysOfPeriod = $start->format('d') - 1;
             $allAmount -= $budgets[0]->amount / $daysOfMonth * $daysOfPeriod;
         }
 
         if (isset($budgets[count($budgets)-1])) {
-            $daysOfMonth = cal_days_in_month(CAL_GREGORIAN, $end->format('m'), $end->format('Y'));
+            $daysOfMonth = $this->getDaysOfMonth($end);
             $daysOfPeriod = $daysOfMonth - $end->format('d');
             $allAmount -= $budgets[count($budgets)-1]->amount / $daysOfMonth * $daysOfPeriod;
         }
 
         return $allAmount;
+    }
+
+    public function getDaysOfMonth(DateTime $dateTime): int
+    {
+        return cal_days_in_month(CAL_GREGORIAN, $dateTime->format('m'), $dateTime->format('Y'));
     }
 }
