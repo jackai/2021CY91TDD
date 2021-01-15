@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita128b09f52b813c2a8e29002714e1a7c
+class ComposerStaticInitd0587c509fd120e4ae8823d8ae80826c
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
@@ -18,6 +18,10 @@ class ComposerStaticInita128b09f52b813c2a8e29002714e1a7c
         'W' => 
         array (
             'Webmozart\\Assert\\' => 17,
+        ),
+        'T' => 
+        array (
+            'Tests\\' => 6,
         ),
         'D' => 
         array (
@@ -41,6 +45,10 @@ class ComposerStaticInita128b09f52b813c2a8e29002714e1a7c
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
+        'Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
+        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -52,7 +60,6 @@ class ComposerStaticInita128b09f52b813c2a8e29002714e1a7c
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
-            1 => __DIR__ . '/../..' . '/tests',
         ),
     );
 
@@ -689,10 +696,10 @@ class ComposerStaticInita128b09f52b813c2a8e29002714e1a7c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita128b09f52b813c2a8e29002714e1a7c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita128b09f52b813c2a8e29002714e1a7c::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInita128b09f52b813c2a8e29002714e1a7c::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInita128b09f52b813c2a8e29002714e1a7c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd0587c509fd120e4ae8823d8ae80826c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd0587c509fd120e4ae8823d8ae80826c::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd0587c509fd120e4ae8823d8ae80826c::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitd0587c509fd120e4ae8823d8ae80826c::$classMap;
 
         }, null, ClassLoader::class);
     }

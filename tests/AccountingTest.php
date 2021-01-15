@@ -4,7 +4,6 @@ namespace Tests;
 
 use App\Accounting;
 use App\Budget;
-use App\BudgetRepo;
 use PHPUnit\Framework\TestCase;
 
 class AccountingTest extends TestCase
@@ -106,24 +105,5 @@ class AccountingTest extends TestCase
 
         $totalAmount = $this->accounting->totalAmount(new \DateTime('2021/01/30'), new \DateTime('2021/03/01'));
         $this->assertEquals(202, $totalAmount);
-    }
-}
-
-
-class FakeBudgetRepo extends BudgetRepo
-{
-    /**
-     * @var array
-     */
-    private $budgets;
-
-    public function getAll()
-    {
-        return $this->budgets;
-    }
-
-    public function setBudgets(array $array)
-    {
-        $this->budgets = $array;
     }
 }

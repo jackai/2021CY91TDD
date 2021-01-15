@@ -11,7 +11,7 @@ class FakeBudgetRepo extends BudgetRepo
      */
     private $budgets = [];
 
-    public function getAll()
+    public function getAll(): array
     {
         return $this->budgets;
     }
